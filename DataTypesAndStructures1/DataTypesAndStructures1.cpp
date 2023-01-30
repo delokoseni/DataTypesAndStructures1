@@ -104,18 +104,16 @@ int BinarySearch(double* arr, int size, double key) {
     int left = 0; // левая граница массива
     int right = size; // правая граница массива
     int mid; // срединный индекс отрезка [left, right]
-    bool flag = false;
-    while ((left <= right) && (flag != true)) {
+    while (left < right) {
         mid = (left + right) / 2; 
-        if (*(arr +mid) == key) 
-            flag = true; 
-        if (arr[mid] > key) // проверяем, какую часть нужно отбросить
-            right = mid - 1; 
+        if (*(arr + mid) > key) 
+            right = mid; // проверяем, какую часть нужно отбросить с поиска
         else 
             left = mid + 1;
     }
-    if (flag)
-        return mid; // индекс ключа
+    right--;
+    if (*(arr + right) == key)
+        return right; // индекс ключа
     else
         return -1; // ключ не найден
 }
