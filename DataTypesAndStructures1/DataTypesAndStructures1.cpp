@@ -9,13 +9,14 @@ void ImprovedSorting(double* arr, int left, int right);
 void Exchange(double* arr, int i, int j);
 void InputArray(double* arr, int size);
 void OutputArray(double* arr, int size);
+int BinarySearch(double* arr, int size, double key);
 
 int main()
 {
     SetConsoleCP(1251);
     SetConsoleOutputCP(1251);
     int n;
-    double *arr;
+    double *arr, search = 1.72896;
     cout << "Введите размер массива: ";
     cin >> n;
     arr = new double[n];
@@ -28,6 +29,8 @@ int main()
     ImprovedSorting(arr, 0, n-1);
     cout << "Результат сортировки Хоара: ";
     OutputArray(arr, n);
+    cout << endl;
+    cout << "Результат поиска индекса элемента равного " << search << " в массиве: " << BinarySearch(arr, n, search);
     return 0;
 }
 
@@ -95,4 +98,24 @@ void OutputArray(double* arr, int size)
     for (i = 0; i < size; i++) {
         cout << *(arr + i) << " ";
     }
+}
+
+int BinarySearch(double* arr, int size, double key) {
+    int left = 0; // левая граница массива
+    int right = size; // правая граница массива
+    int mid; // срединный индекс отрезка [left, right]
+    bool flag = false;
+    while ((left <= right) && (flag != true)) {
+        mid = (left + right) / 2; 
+        if (*(arr +mid) == key) 
+            flag = true; 
+        if (arr[mid] > key) // проверяем, какую часть нужно отбросить
+            right = mid - 1; 
+        else 
+            left = mid + 1;
+    }
+    if (flag)
+        return mid; // индекс ключа
+    else
+        return -1; // ключ не найден
 }
