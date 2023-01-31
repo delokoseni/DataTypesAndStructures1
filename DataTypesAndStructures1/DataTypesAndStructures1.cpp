@@ -4,16 +4,16 @@
 #include <algorithm> 
 using namespace std;
 
-void InputArray(double* arr, int size);
-void OutputArray(double* arr, int size);
-void SimpleSorting(double* arr, int size);
-void ImprovedSorting(double* arr, int left, int right);
-int BinarySearch(double* arr, int size, double key);
-void InputVector(vector<double> *myvector);
-void OutputVector(vector<double> *myvector);
-void VectorSimpleSorting(vector<double> *myvector);
-void VectorImprovedSorting(vector<double> *myvector, int left, int right);
-int VectorBinarySearch(vector<double> *myvector, double key);
+void InputArray(double* arr, int size); // функция ввода динамического массива
+void OutputArray(double* arr, int size); // функция вывода динамического массива
+void SimpleSorting(double* arr, int size); // функция сортировки выбором для динамического массива
+void ImprovedSorting(double* arr, int left, int right); // функция сортировки Хоара для динамического массива
+int BinarySearch(double* arr, int size, double key); // функция бинарного поиска для динамического массива
+void InputVector(vector<double> *myvector); // функция ввода динамического вектора
+void OutputVector(vector<double> *myvector); // функция вывода динамического вектора
+void VectorSimpleSorting(vector<double> *myvector); // функция сортировки выбором для вектора
+void VectorImprovedSorting(vector<double> *myvector, int left, int right); // функция сортировки Хоара для вектора
+int VectorBinarySearch(vector<double> *myvector, double key); // функция бинарного поиска для вектора
 
 int main()
 {
@@ -25,8 +25,7 @@ int main()
     cin >> n;
     arr = new double[n];
     vector<double> myvector(n);
-    vector<double>::iterator it; // итератор вектора типа double
-    /*InputArray(arr, n);
+    InputArray(arr, n);
     SimpleSorting(arr, n);
     cout << "Результат сортировки выбором: ";
     OutputArray(arr, n);
@@ -36,7 +35,7 @@ int main()
     cout << "Результат сортировки Хоара: ";
     OutputArray(arr, n);
     cout << endl;
-    cout << "Результат поиска индекса элемента равного " << search << " в массиве: " << BinarySearch(arr, n, search);*/
+    cout << "Результат поиска индекса элемента равного " << search << " в массиве: " << BinarySearch(arr, n, search);
     InputVector(&myvector);
     OutputVector(&myvector);
     VectorSimpleSorting(&myvector);
@@ -46,7 +45,7 @@ int main()
     VectorImprovedSorting(&myvector, 0, n-1);
     cout << "Результат сортировки Хоара: ";
     OutputVector(&myvector);
-    //cout << "Результат поиска индекса элемента равного " << search << " в векторе: " << VectorBinarySearch(&myvector, search);
+    cout << "Результат поиска индекса элемента равного " << search << " в векторе: " << VectorBinarySearch(&myvector, search);
     return 0;
 }
 
@@ -73,7 +72,7 @@ void ImprovedSorting(double* arr, int left, int right)
     double m, buffer;
     i = left;
     j = right;
-    m = *(arr + (i + j + 1) / 2); // серединный элемент
+    m = *(arr + (i + j + 1) / 2); // срединный элемент
     do {
         while (*(arr + i) < m)
             i++;
@@ -140,7 +139,7 @@ void InputVector(vector<double> *myvector)
 
 void OutputVector(vector<double> *myvector)
 {
-    vector<double>::iterator it; // итератор вектора типа double
+    vector<double>::iterator it; 
     for (it = (*myvector).begin(); it < (*myvector).end(); it++)
     {
         cout << *it << " ";
@@ -170,7 +169,7 @@ void VectorImprovedSorting(vector<double> *myvector, int left, int right)
     double m, buffer;
     i = left;
     j = right;
-    m = myvector->at((i + j + 1) / 2); // серединный элемент
+    m = myvector->at((i + j + 1) / 2); // срединный элемент
     do {
         while (myvector->at(i) < m)
             i++;
@@ -192,6 +191,19 @@ void VectorImprovedSorting(vector<double> *myvector, int left, int right)
 
 int VectorBinarySearch(vector<double> *myvector, double key)
 {
-    return 0;
+    int left = 0; // левая граница массива
+    int right = myvector->size(); // правая граница массива
+    int mid; // срединный индекс отрезка [left, right]
+    while (left < right) {
+        mid = (left + right) / 2;
+        if (myvector->at(mid) > key)
+            right = mid; // проверяем, какую часть нужно отбросить с поиска
+        else
+            left = mid + 1;
+    }
+    right--;
+    if (myvector->at(right) == key)
+        return right; // индекс ключа
+    else
+        return -1; // ключ не найден
 }
-   
